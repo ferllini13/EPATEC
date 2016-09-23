@@ -70,14 +70,14 @@
 
 
 .controller('LoginCtrl', function($scope, $state, loginData,$http){
-    $scope.login = {username:'', password:'',name:'',id:'', menutype:''};
+    $scope.login = {username:'', password:'',name:'',id:'', office:'', menutype:'' };
         var form = document.getElementById("myForm");  
         form.onsubmit = function(){
         form.reset();
       }
     $scope.verificar =  function(login){
          var ip = "http://webserviceepatec.azurewebsites.net/EPATEC.asmx/Parsear?frase=";
-                    var peticion = "listar/clientes/_name/_id/_type/where/_identityNumber/"
+                    var peticion = "listar/clientes/_office/_name/_id/_type/where/_identityNumber/"
                     var request = "";
                     request = request.concat(ip, peticion, $scope.login.username,"/_password/",$scope.login.password);
                     console.log("Request es:", request);
@@ -99,24 +99,24 @@
                                 
                             
                             if (result2[0]._type===0){
-                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,0);   
+                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,result2[0]._office,0);   
                                 $state.go('home'); 
                             }
                             else if(result2[0]._type===1){
-                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,1);   
+                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,result2[0]._office,1);   
                                 $state.go('myProducts');
                             }
                             else if(result2[0]._type===2){
-                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,2);     
+                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,result2[0]._office,2);     
                                 $state.go('orders');
                             }
                             else if(result2[0]._type===3){
-                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,3);   
-                                $state.go('Stadistic');
+                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,result2[0]._office,3);   
+                                $state.go('stadistic');
                             }
                             else if(result2[0]._type===4){
-                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,4);   
-                                $state.go('Stadistic');
+                                loginData.updateLogin(login,result2[0]._id,result2[0]._name,result2[0]._office,4);   
+                                $state.go('stadistic');
                             }    
                             }
                 } 
@@ -128,7 +128,7 @@
 })
  
 
-.controller('MenuCtrl', function($scope, $state,ItemsControl, loginData){
+.controller('MenuCtrl', function($scope, $state, loginData){
     $scope.login = loginData.getLogin();
     $scope.buyer=false;
     $scope.seller=false;
@@ -187,6 +187,7 @@
     
    $scope.update = function() {
        addDelay();
+       var itemsFinal = $scope.itemsFinal = [];
        ItemsControl.update($http);
    }
    
@@ -292,6 +293,7 @@
  
 
 .controller('CartCtrl', function($scope, $state, ItemsControl,$http,loginData) {
+    var ip = "http://webserviceepatec.azurewebsites.net/EPATEC.asmx/Parsear?frase=";
     $scope.login = loginData.getLogin();
     $scope.items = ItemsControl.listCart();;
     $scope.goBack = function(){ 
@@ -382,45 +384,80 @@
       
   };
      
-     $scope.checkout = function() {
-         for (var i in $scope.items) {
-             var id = $scope.items[i]._id;
-             var ip = "http://webserviceepatec.azurewebsites.net/EPATEC.asmx/Parsear?frase=";
-                    var peticion = "crear/pedido/_description/_office/_id/_amount/where/_id"
+     
+     
+     $scope.checkout = function(office) {
+        var newid = new Date().getTime().toString().slice(2,12);
+        var newid2 = new Date().getTime().toString().slice(3,13);
+        var hour = new Date();
+        var time="";
+         time=time.concat(hour.getHours().toString(),":",hour.getMinutes().toString(),":",hour.getSeconds().toString());
+         
+            
+                    var peticion = "crear/pedido/"
                     var request = "";
-                    request = request.concat(ip, peticion);
-                   console.log("Request es:", request);
-                $http.get(request)
+                    request = request.concat(ip, peticion,$scope.login.id,"/",newid,"/",office.replace(" ","%20"),"/",time,"/",0);
+                    console.log("Request es:", request);
+                    $http.get(request)
                             .then(function (response) {
                             console.log('Get Post', response);
                             console.log("Get Post status", response.data);
                             var data = response.data;
                             var result = data.substring(70, data.length - 9);
-                            console.log("Get Post status", result);
-                            var result2 = angular.fromJson(result);
-                            console.log("Get Post status 2", result2);                            
-                            for(var i in result2) {
-                                $scope.items.push(result2[i]);
+                            console.log("Get Post status", result);                            
+                            if (result==="[]"){
+                                updaterelation(newid);
                             }
-                            var result3 = $scope.items
-                            console.log("Result3 ", result3);
+                            else{
+                                alert("check the data");
+                            }
                     });
-    
-         }
-  };
-      
-    
-})
+     
+         };
+     function updaterelation(newid){
+        var peticion = "actualizarproductopedido/"
+        for (var i in $scope.items) {
+             var id = $scope.items[i]._id;
+             var cant = $scope.items[i]._amount;
+             var request = "";
+             request = request.concat(ip, peticion,id,"/",newid,"/",cant);
+             console.log("Request es:", request);
+             $http.get(request)
+                .then(function (response) {
+                    console.log('Get Post', response);
+                            console.log("Get Post status", response.data);
+                            var data = response.data;
+                            var result = data.substring(70, data.length - 9);
+                            console.log("Get Post status", result);                          
+                            if (result==="[]"){
+                                return;
+                            }
+                            else{
+                                alert("error");
+                                
+                            }
+             }  
+     );
+  }
+    alert("order created");     
+    var itemsFinal = $scope.itemsFinal = [];
+     }
+ 
+ })
 
 
-.controller('MyProductsCtrl', function($scope, $state,ProductsControl,$http){
+
+.controller('MyProductsCtrl', function($scope, $state,ProductsControl,$http,ItemsControl,loginData) {
+$scope.login = loginData.getLogin();
+     
+     
+     
 $scope.items = ProductsControl.list();
      var ip = "http://webserviceepatec.azurewebsites.net/EPATEC.asmx/Parsear?frase=";
-                    var peticion = "listar/productos/_description/_office/_id/_amount/where/_id"
+                   /* var peticion = "listar/productos/_description/_office/_id/_amount/where/_id"
                     var request = "";
-                    //colocar request real
-                    //request = request.concat(ip, peticion);
-                   /* console.log("Request es:", request);
+                    request = request.concat(ip, peticion);
+                   console.log("Request es:", request);
                 $http.get(request)
                             .then(function (response) {
                             console.log('Get Post', response);
@@ -440,16 +477,13 @@ $scope.items = ProductsControl.list();
    $scope.update = function() {
        addDelay();
        ItemsControl.update($http);
-   }
+   };
+     
     var letters = $scope.letters = [];
     var itemsFinal = $scope.itemsFinal = [];
     var currentCharCode = ' '.charCodeAt(0) - 1;
     var letterHasMatch = {};  
     
-    //console.log("Antes", items);
-    
-    //window.setTimeout(addDelay, 3000);
-
     function addDelay() {
         $scope.items
         .sort(function(a, b) {
@@ -516,9 +550,7 @@ $scope.items = ProductsControl.list();
     });
   };
     
-    /*for (var i = currentCharCode + 1; i <= 'Z'.charCodeAt(0); i++) {
-    addLetter(i);
-  }*/
+
     
     function addLetter(code) {
     var letter = String.fromCharCode(code);
@@ -530,6 +562,36 @@ $scope.items = ProductsControl.list();
    
     letters.push(letter);
   }
+    
+    $scope.addProducts=function(name,cant,tax,office){
+            console.log("en añadir");
+            var form2 = document.getElementById("myForm2");
+            var peticion = "crear/producto/"
+            var request = "";
+            var newid = new Date().getTime().toString().slice(4,14);
+        
+                   request = request.concat(ip, peticion,"/",0,$scope.login.id,"/",newid,"/",tax,"/",cant,"/",office,"/",name);
+                    console.log("Request es:", request);
+                    $http.get(request)
+                            .then(function (response) {
+                            console.log('Get Post', response);
+                            console.log("Get Post status", response.data);
+                            var data = response.data;
+                            var result = data.substring(70, data.length - 9);
+                            console.log("Get Post status", result);
+                            var result2 = angular.fromJson(result);
+                            console.log("Get Post status 2", result2);
+                            if (result2.length===0){
+                                alert("Category Created");
+                                form2.reset();
+                            }
+                    });
+        
+        
+    };
+    
+
+     
 })
  
  
@@ -692,7 +754,7 @@ $scope.items = ProductsControl.list();
         function registry(type){
                             var request2 = "";
                             var peticion2 = "crear/cliente/_id/"
-                            var newid = new Date().getTime().toString().slice(0,10);
+                            var newid = new Date().getTime().toString().slice(4,14);
                             peticion2 = peticion2.concat(newid,"/_name/",$scope.signUp.Uname.replace(" ","%20"),"/_lastName1/", $scope.signUp.lname1,"/_lastName2/",$scope.signUp.lname2,"/_cellPhone/",$scope.signUp.phone,"/_identityNumber/",$scope.signUp.inum,"/_residenceAddress/",$scope.signUp.address.replace(" ","%20"),"/_birthDate/",$scope.signUp.bdate,"/_type/",type,"/_password/",$scope.signUp.password);
                                 
                             request2 = request2.concat(ip, peticion2);
@@ -1243,19 +1305,18 @@ $scope.addCategory=function(cname){
 
 })
 
-
-
 .service('loginData', function() {
  return {
    login: {},
    getLogin: function() {
      return this.login;
    },
-   updateLogin: function(login,id,name,menutype) {
+   updateLogin: function(login,id,name,office,menutype) {
      this.login = login;
     this.login.id=id;
        this.login.name=name;
        this.login.menutype=menutype;
+       this.login.office=office;
    }
  }
 })

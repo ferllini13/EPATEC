@@ -26,6 +26,19 @@
             <img ng-if="!item.isLetter" src="img/shopping_cart_minus.png" class="shop-plus" ng-click="eliminateItemCart(item._id)">
           </li></h4>
         </ul>
-        <button type="button" class="btn btn-success btn-block" ng-click="checkout()" > Check Order</button>
+        <div class="form-group" style="color:#ffffff">
+                            <label for="sel1" style="color:#000000" >Select the branch office:</label>
+                            <select ng-model="office" required="required" class="form-control" id="sel1">
+                                <option value="San José">San José</option>
+                                <option value="Cartago">Cartago</option>
+                                <option value="Alajuela">Alajuela</option>
+                                <option value="Heredia">Heredia</option>
+                                <option value="Guanacaste">Guanacaste</option>
+                                <option value="Puntarenas">Puntarenas</option>
+                                <option value="Limón">Limón</option>
+                            </select>
+                            
+                        </div>
+        <button type="button" class="btn btn-success btn-block" ng-click="checkout(office.toString())" > Check Order</button>
         </div>
         </div>

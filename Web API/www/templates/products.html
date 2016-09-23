@@ -15,8 +15,7 @@
                 class="full-width white-background">
 
         </nav>   
-                
-                <!-- Agregado -->
+
                 
             <ul>           
            <h4><li class="list-group-item ist-group-item-success" id="{{ item.isLetter ? (item.letter + '_divider') : ''}}" 
@@ -26,7 +25,6 @@
               <img ng-if="!item.isLetter" src="img/close-cross.png" class="shop-plus" ng-click="elimItem(item._id)"></h4></li>
            </ul>
             
-            <!-- Finaliza agregado -->
             
             <button type="button" class="btn btn-primary btn-block btn btn-warning">Update</button>
                 
@@ -37,16 +35,39 @@
                     <h3>Create a new Product</h3>
                 
                     <form autocomplete="off" id="myForm" method="post" ng-submit="verificar(login)">
-                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
-                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
-                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
-                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
-
-                    <button type="button" class="btn btn-warning btn-block" ng-click="addProduct()"> Add Category</button>
+                        <input  type="text" placeholder=" Name" required="required" ng-model="name" value=""class="input-user"> 
+                        <input  type="text" placeholder=" Amoung" required="required" ng-model="mante.bdate" value=""class="input-user">
                     </form>
+
+                        <form name="myForm">
+                        <div class="form-group" style="color:#ffffff">
+                            <label for="sel1" style="color:#000000" >Select the branch office:</label>
+                            <select ng-model="office" required="required" class="form-control" id="sel1">
+                                <option value="San José">San José</option>
+                                <option value="Cartago">Cartago</option>
+                                <option value="Alajuela">Alajuela</option>
+                                <option value="Heredia">Heredia</option>
+                                <option value="Guanacaste">Guanacaste</option>
+                                <option value="Puntarenas">Puntarenas</option>
+                                <option value="Limón">Limón</option>
+                            </select>
+                            
+                        </div>
+                            <label>
+                                <input type="radio" ng-model="tax" value="true">
+                                Taxable
+                            </label><br/>
+                            <label>
+                                <input type="radio" ng-model="tax" value="false">
+                                Not Taxable
+                            </label><br/>
+                            
+                    </form>
+
+                    <button type="button" class="btn btn-warning btn-block" ng-click="addProduct(name,amoung,tax,office)"> Add Category</button>
+
                 
                 </div>
-    
         
         </div>
 </div>
