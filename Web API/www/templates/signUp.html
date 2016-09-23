@@ -1,0 +1,26 @@
+    <div class="backgroundLogin ">
+        <div class="login"> 
+            <h1>EPATEC Register</h1>
+            <form autocomplete="off" id="myForm" method="post" ng-controller="SignUpCtrl">
+                <input  type="text" placeholder=" Name" required="required" ng-model="signUp.Uname" value="" class="input-login" style="color:#ffffff">
+                <input type="text" placeholder=" Last Name 1" required="required" ng-model="signUp.lname1" value="" class="input-login" style="color:#ffffff">
+                <input type="text" placeholder=" Las Name 2" required="required" ng-model="signUp.lname2" value="" class="input-login" style="color:#ffffff">
+                <input type="text" placeholder=" Phone" required="required" ng-model="signUp.phone" value="" class="input-login" style="color:#ffffff">
+                <input type="text" placeholder=" Address" required="required" ng-model="signUp.address" value="" class="input-login" style="color:#ffffff">
+                <input type="text" placeholder=" Identity Number " required="required" ng-model="signUp.inum" value="" class="input-login" style="color:#ffffff">
+                <input  type="text" placeholder=" Birth Date (DD-MM-YY)" required="required" ng-model="signUp.bdate" value="" class="input-login" style="color:#ffffff">
+                <input type="password" placeholder="Password" required="required" ng-model="signUp.password" value="" class="input-login" style="color:#ffffff">
+                
+                <div class="form-group" style="color:#ffffff">
+                    <label for="sel1" >Select the Cliente type:</label>
+                    <select ng-model="type" required="required" class="form-control" id="sel1">
+                        <option value="0">Buyer/Normal Client</option>
+                        <option value="1">Seller/Distributor Client</option>
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-primary btn-block btn-large nounderline" ng-click="createUser(type)" value="Sign Up"> 
+                
+                <li> <a ALIGN="center" href="#/login">Sign In </a></li>   
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,33 @@
+   <!-- Fixed navbar -->
+<div class="navbar-wrapper">
+<div class="container">
+    <nav class="let" class="navbar navbar-default" style="background-color: #202020;">
+
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#epa">EPATEC</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ng-if="buyer"><a href="#/home">Home</a></li>
+            <li ng-if="buyer"><a href="#/cart">My Cart</a></li>
+            <li ng-if="seller"><a href="#/myProducts">My Products</a></li>
+            <li ng-if="manage"><a href="#/stadistic">Stadistics</a></li> 
+            <li ng-if="depen||admi"><a href="#/orders">Orders</a></li>
+            <li ng-if="depen||admi"><a href="#/maintenance">Maintenance</a></li> 
+            <li><a href="#about">About Us</a></li> 
+          
+            </ul>
+          <ul class="nav navbar-nav navbar-right">
+               <li><a>User : {{login.name}}</a></li>
+              <li class="out" ><a href="#">Log Out</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+</div>
+</div>
+
+
+
+

@@ -1,0 +1,33 @@
+
+<div class="fond scroll">
+    
+    <div menu> </div>
+
+        <div class="container" >
+        <div class="jumbotron">
+        <h2 ALIGN="center"> Select Products</h2>
+            
+        <nav>
+            <input type="search"
+             placeholder="Search for a product..."
+             ng-model="search"
+                ng-bind="search"
+               ng-focus="searchFocused = true"
+             ng-blur="searchFocused = false"
+             ng-change="scrollTop()"
+                class="full-width white-background">
+        </nav>
+      <!--<button  ng-if="search.length"  class="button button-icon ion-android-close input-button"  ng-click="clearSearch()"></button>-->
+       <ul ng-init="update()">           
+           <h4><li class="list-group-item ist-group-item-success" id="{{ item.isLetter ? (item.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': item.isLetter}"
+                    ng-repeat="item in getItems(search)">
+           {{item.letter || (item._description+ ' ('+ item._id+ ')'+'  ; Department :' +  item._office + '  ;  Tax : ' +item. _nonTaxable+ '  ; In Stock: ' +item._amount )}}
+              <img ng-if="!item.isLetter" src="img/shopping_cart_plus.png" class="shop-plus" ng-click="addItemCart(item._id)"></h4></li>
+           </ul>
+            <button type="button" class="btn btn-info btn-block" ng-click="update()"> Update Products</button>
+    </div>
+    </div>
+    
+</div>
+

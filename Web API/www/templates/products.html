@@ -1,0 +1,52 @@
+<div class="fond scroll">
+    
+    <div menu></div>
+        <div class="container" >
+            <div class="jumbotron">
+                <h2 ALIGN="center"> My Products</h2>
+                <nav>
+            <input type="search"
+             placeholder="Search for a product..."
+             ng-model="search"
+                ng-bind="search"
+               ng-focus="searchFocused = true"
+             ng-blur="searchFocused = false"
+             ng-change="scrollTop()"
+                class="full-width white-background">
+
+        </nav>   
+                
+                <!-- Agregado -->
+                
+            <ul>           
+           <h4><li class="list-group-item ist-group-item-success" id="{{ item.isLetter ? (item.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': item.isLetter}"
+                    ng-repeat="item in getItems(search) track by item._id">
+            {{item.letter || (item._description+ (id:item._id)' : oficina ' +  item._office + ', Stock: ' +item._amount+ 'tax: ' +item. _nonTaxable crear/producto/categoryID,providerID,id,nonTaxable,amount,office,description)}}
+              <img ng-if="!item.isLetter" src="img/close-cross.png" class="shop-plus" ng-click="elimItem(item._id)"></h4></li>
+           </ul>
+            
+            <!-- Finaliza agregado -->
+            
+            <button type="button" class="btn btn-primary btn-block btn btn-warning">Update</button>
+                
+
+</div>
+    <div class="jumbotron">
+                <div>
+                    <h3>Create a new Product</h3>
+                
+                    <form autocomplete="off" id="myForm" method="post" ng-submit="verificar(login)">
+                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
+                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
+                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
+                        <input  type="text" placeholder=" Name" required="required" class="input-user" value="">
+
+                    <button type="button" class="btn btn-warning btn-block" ng-click="addProduct()"> Add Category</button>
+                    </form>
+                
+                </div>
+    
+        
+        </div>
+</div>

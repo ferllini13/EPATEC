@@ -1,0 +1,31 @@
+<div class="fond scroll">
+    
+    <div menu></div>
+
+
+    <div class="container" >
+    <div class="jumbotron">
+        <h2 ALIGN="center"> My Shopping Cart</h2>
+            
+        <nav>
+        <input type="search"
+             placeholder="Search for a product..."
+             ng-model="search"
+                ng-bind="search"
+               ng-focus="searchFocused = true"
+             ng-blur="searchFocused = false"
+             ng-change="scrollTop()"
+                class="full-width white-background">
+
+        </nav>
+       <ul>           
+          <h4><li class="list-group-item ist-group-item-success" id="{{ item.isLetter ? (item.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': item.isLetter}"
+                    ng-repeat="item in getItems(search)">
+               {{item.letter || (item._description+ ' ('+ item._id+ ')'+'  ; Department :' +  item._office + '  ;  Tax : ' +item. _nonTaxable+ '  ; Quantity: ' +item._amount )}}
+            <img ng-if="!item.isLetter" src="img/shopping_cart_minus.png" class="shop-plus" ng-click="eliminateItemCart(item._id)">
+          </li></h4>
+        </ul>
+        <button type="button" class="btn btn-success btn-block" ng-click="checkout()" > Check Order</button>
+        </div>
+        </div>

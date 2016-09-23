@@ -1,0 +1,110 @@
+<div class="fond scroll">
+    
+    <div menu></div>
+
+            <div class="container" >
+            <div class="jumbotron">
+            <h2 ALIGN="center">Mantenace Section</h2>
+                
+            <button type="button" class="btn btn-warning" ng-click="updateview(1)">All Users</button>
+            <button type="button" class="btn btn-danger" ng-click="updateview(2)">All Categories</button>
+            <button type="button" class="btn btn-success" ng-click="updateview(3)">All Products</button>
+                
+                
+                
+            <div ng-if="products">
+            <ul ng-init="updateProducts()" >           
+                <h4><li class="list-group-item ist-group-item-success" id="{{ item.isLetter ? (item.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': item.isLetter}"
+                    ng-repeat="item in getItems(search)">
+                    {{item.letter || (item._description+ ' ('+ item._id+ ')'+'  ; Department :' +  item._office + '  ;  Tax : ' +item. _nonTaxable+ '  ; In Stock: ' +item._amount )}}
+              <img ng-if="!item.isLetter" src="img/close-cross.png" class="shop-plus" ng-click="deleteItem(item._id)"></h4></li>
+           </ul>   
+            </div>    
+                
+            <div ng-if="users">
+            <ul ng-init="updateUsers()">           
+                <h4><li class="list-group-item ist-group-item-success" id="{{ user.isLetter ? (user.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': user.isLetter}"
+                    ng-repeat="user in getUsers(search)">
+                    {{user.letter || (user._name+ ' ' +  user._lastName1 + ' ' +  user._lastName2 + ' ('+ user._id+ ')'+'  ; Number :' +  item._cellphone )}}
+              <img ng-if="!user.isLetter" src="img/close-cross.png" class="shop-plus" ng-click="deleteUser(user._id)"></h4></li>
+           </ul>   
+            </div>   
+    
+             <div ng-if="category">
+            <ul ng-init="updateCategories()">           
+                <h4><li class="list-group-item ist-group-item-success" id="{{ category.isLetter ? (category.letter + '_divider') : ''}}" 
+                    ng-class="{'item-divider': category.isLetter}"
+                    ng-repeat="category in getCategories(search)">
+                    {{category.letter || (category._description+ ' ('+ category._id+ ')' )}}
+              <img ng-if="!category.isLetter" src="img/close-cross.png" class="shop-plus" ng-click="deleteCategory(category._id)"></h4></li>
+           </ul>   
+            </div>   
+                
+                
+                
+            <button ng-if="users" type="button" class="btn btn-primary btn-block" ng-click="updateUsers()" > Update Users</button>
+            <button ng-if="category" type="button" class="btn btn-primary btn-block"  ng-click="updateCategories()"> Update Categories</button>
+            <button ng-if="products" type="button" class="btn btn-primary btn-block" ng-click="updateProducts()"> Update Products</button>
+
+                
+</div>
+                <div class="jumbotron" ng-if="!products">
+                    <div ng-if="users">
+                    <h3>Create a new User</h3>
+                
+                    <form autocomplete="off" id="myForm" method="post" >
+                        <input  type="text" placeholder=" Name" required="required" ng-model="mante.Uname" value="" class="input-user" >
+                        <input type="text" placeholder=" Last Name 1" required="required" ng-model="mante.lname1" value="" class="input-user">
+                        <input type="text" placeholder=" Las Name 2" required="required" ng-model="mante.lname2" value="" class="input-user">
+                        <input type="text" placeholder=" Phone" required="required" ng-model="mante.phone" value=""class="input-user" >
+                        <input type="text" placeholder=" Address" required="required" ng-model="mante.address" value="" class="input-user">
+                        <input type="text" placeholder=" Identity Number " required="required" ng-model="mante.inum" value="" class="input-user">
+                        <input  type="text" placeholder=" Birth Date (DD-MM-YY)" required="required" ng-model="mante.bdate" value=""class="input-user">
+                        <input type="password" placeholder="Password" required="required" ng-model="mante.password" value="" class="input-user">
+                        </form>
+                
+                        <div class="form-group" style="color:#ffffff">
+                            <label for="sel1" style="color:#000000" >Select the Cliente type:</label>
+                            <select ng-model="type" required="required" class="form-control" id="sel1">
+                                <option value="2">EPATEC Dependent</option>
+                                <option value="3" >EPATEC Administrative</option>
+                                <option value="4">EPATEC Manager</option>
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="form-group" style="color:#ffffff">
+                            <label for="sel1" style="color:#000000" >Select the branch office:</label>
+                            <select ng-model="office" required="required" class="form-control" id="sel1">
+                                <option value="San José">San José</option>
+                                <option value="Cartago">Cartago</option>
+                                <option value="Alajuela">Alajuela</option>
+                                <option value="Heredia">Heredia</option>
+                                <option value="Guanacaste">Guanacaste</option>
+                                <option value="Puntarenas">Puntarenas</option>
+                                <option value="Limón">Limón</option>
+                            </select>
+                            
+                        </div>
+                        
+                    <button type="button" class="btn btn-warning btn-block" ng-click="addUser(mante.Uname,mante.lname1,mante.lname2,mante.phone,mante.address, mante.inum,mante.bdate,type,mante.password,office)"> Add User</button>
+                
+                </div>
+                <div ng-if="category">
+                    <h3>Create a new Category</h3>
+                
+                        <form autocomplete="off" id="myForm2" method="post" >
+                        <input type="text" placeholder=" Category name" required="required" ng-model="mante.cname" value="" class="input-user">
+                        <button type="button" class="btn btn-warning btn-block" ng-click="addCategory(mante.cname)"> Add Category</button>
+                    </form>
+                
+                </div>
+                    
+
+                      
+                    
+            </div>
+    </div>
+</div>
